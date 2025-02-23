@@ -16,8 +16,14 @@ function createServer() {
 
     res.setHeader('Content-Type', 'application/json');
 
+    let errors;
+
     try {
-      errorsHandler(pathName, toCase);
+      errors = errorsHandler(pathName, toCase);
+
+      if (errors.length > 0) {
+        throw new Error();
+      }
 
       const { convertedText, originalCase } = convertToCase(pathName, toCase);
 
@@ -30,10 +36,10 @@ function createServer() {
 
       res.statusCode = 200;
       res.end(JSON.stringify(resultRequest));
-    } catch (error) {
+    } catch {
       res.statusCode = 400;
       res.statusMessage = 'Bad request';
-      res.end(error.message);
+      res.end(JSON.stringify({ errors }));
     }
   });
 }

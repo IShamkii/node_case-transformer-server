@@ -25,9 +25,7 @@ function errorsHandler(pathName, toCase) {
     });
   }
 
-  if (errors.length > 0) {
-    throw new Error(JSON.stringify({ errors }));
-  }
+  return errors;
 }
 
 module.exports = { errorsHandler };
