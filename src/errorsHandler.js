@@ -1,0 +1,33 @@
+/* eslint-disable max-len */
+function errorsHandler(pathName, toCase) {
+  const errors = [];
+
+  if (!pathName) {
+    errors.push({
+      message:
+        'Text to convert is required. Correct request is: "/<TEXT_TO_CONVERT>?toCase=<CASE_NAME>".',
+    });
+  }
+
+  if (!toCase) {
+    errors.push({
+      message:
+        '"toCase" query param is required. Correct request is: "/<TEXT_TO_CONVERT>?toCase=<CASE_NAME>".',
+    });
+  }
+
+  const validCases = ['SNAKE', 'KEBAB', 'CAMEL', 'PASCAL', 'UPPER'];
+
+  if (toCase && !validCases.includes(toCase)) {
+    errors.push({
+      message:
+        'This case is not supported. Available cases: SNAKE, KEBAB, CAMEL, PASCAL, UPPER.',
+    });
+  }
+
+  if (errors.length > 0) {
+    throw new Error(JSON.stringify({ errors }));
+  }
+}
+
+module.exports = { errorsHandler };
